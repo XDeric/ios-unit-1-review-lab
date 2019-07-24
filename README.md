@@ -38,6 +38,37 @@ establishment of an absolute Tyranny over these States. To prove this, let Facts
 candid world.
 """
 ```
+```swift
+extension StringProtocol {
+var words: [SubSequence] {
+return split{ !$0.isLetter }
+}
+}
+
+let long = declarationOfIndependence.words
+//print(long)
+var array = [String]()
+var new: [String:Int] = [:]
+
+for i in long{
+if i.count > 5{
+array.append(String(i))
+}
+}
+//print(new)
+for words in array{
+new[words] = (new[words] ?? 0) + 1
+}
+var max = 0
+var most = ""
+for (key,value) in new{
+if max < value {
+max = value
+most = String(key)
+}
+}
+print("The most frequent word in declaration of independece is: \(most)")
+```
 
 ## Question 2
 
@@ -57,7 +88,7 @@ var tripleSumArr = [-20,-14, -8,-5,-3,-2,1,2,3,4,9,15,20,30]
 ```
 
 
-## Question 3
+## Question 3.2
 
 ```swift
 let letterValues = [
@@ -108,6 +139,25 @@ Input: [[2,4,1],[3,0],[9,3]]
 
 Output: [9,3]
 ```
+```swift
+var original = [[2,4,1],[3,0],[9,3]]
+var new = [Int]()
+var max = 0
+
+let test = original.map{$0.reduce(0, +)}
+//print(test)
+for (key,value) in original.enumerated(){
+for i in test{
+if i > max{
+max = i
+}
+}
+let test2 = test.index(of: max)
+
+}
+let test2 = test.index(of: max)
+print(original[test2!])
+```
 
 ## Question 5
 
@@ -129,6 +179,58 @@ b. Write a function that takes in an array of `Receipts` and returns an array of
 
 c. Write a function that takes in an array of `Receipts` and returns an array of those receipts sorted by price
 
+```swift
+struct ReceiptItem {
+let name: String
+let price: Double
+}
+
+struct Receipt {
+let storeName: String
+let items: [ReceiptItem]
+
+func total()-> Double{
+var sum = Double()
+for i in items{
+sum += i.price
+}
+return sum
+}
+}
+
+var allReceipts = [Receipt]()
+func matchStore(a: [Receipt], name: String)->[Receipt]{
+for i in a{
+if i.storeName == name{
+allReceipts.append(i)
+}
+}
+return allReceipts
+}
+var sortReceipts = [Receipt]()
+func sortPrice(a:[Receipt])->[Receipt]{
+var priceSorted = a.sorted {$0.total() < $1.total() }
+
+return priceSorted
+}
+
+var item1 = ReceiptItem(name: "carrot", price: 1.6)
+var item2 = ReceiptItem(name: "chicken", price: 5.9)
+var item3 = ReceiptItem(name: "paper", price: 0.9)
+var item4 = ReceiptItem(name: "pencil", price: 0.5)
+
+var receipt1 = Receipt(storeName: "convience store", items: [item1,item2])
+var receipt2 = Receipt(storeName: "convience store", items: [item1,item3])
+var receipt3 = Receipt(storeName: "711", items: [item3])
+var receipt4 = Receipt(storeName: "711", items: [item3])
+var receipt5 = Receipt(storeName: "711", items: [item4])
+//print(receipt1.total())
+
+matchStore(a: [receipt1,receipt2,receipt3,receipt4,receipt5], name: "711")
+print(allReceipts)
+print(sortPrice(a: [receipt1,receipt2,receipt3,receipt4,receipt5]))
+```
+
 ## Question 6
 
 a. The code below doesn't compile.  Why?  Fix it so that it does compile.
@@ -137,7 +239,7 @@ a. The code below doesn't compile.  Why?  Fix it so that it does compile.
 class Giant {
     var name: String
     var weight: Double
-    let homePlanet: String
+    let homePlanet: String 
 
     init(name: String, weight: Double, homePlanet: String) {
         self.name = name
@@ -209,6 +311,29 @@ House Lannister - A Lannister always pays his debts
 ```
 
 b. Move that function to inside the enum as a method
+```swift enum GameOfThronesHouse: String {
+case stark, lannister, targaryen, baratheon
+
+func matchHouse(a: GameOfThronesHouse)->String{
+switch a {
+case .baratheon:
+return "House Baratheon - Ours is the Fury"
+case .stark:
+return "House Stark - Winter is coming"
+case .lannister:
+return"House Lannister - A Lannister always pays his debts"
+case .targaryen:
+return "House Targaryen - burn them all"
+default:
+return "test"
+}
+}
+}
+
+
+//print(matchHouse(a: GameOfThronesHouse.baratheon))
+print(GameOfThronesHouse.matchHouse(GameOfThronesHouse.targaryen))
+```
 
 ## Question 9
 
